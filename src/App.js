@@ -7,12 +7,15 @@ class App extends Component {
   componentDidMount() {
     abc.renderAbc('paper',
     `%%flatbeams 1
-    (3Dcz cc (3Dcc z2x`, {scale: 2})
+    M:4/4
+    K:clef=perc
+    V:all stems=up
+    |: (3Dcz cA (3Dee z2 :|`, {scale: 2})
   }
   render() {
     return (
       <div className="App">
-      <div id="paper"></div>
+        <div id="paper"></div>
       </div>
     );
   }

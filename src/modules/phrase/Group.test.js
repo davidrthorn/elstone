@@ -2,10 +2,8 @@ import { TripletGroup } from './Group';
 
 test('Group does not include 3 notes that match last known note', () => {
     const TG = new TripletGroup();
-    const responses = ['c', 'c', 'c'];
-    let n = 0;
     TG.NoteGenerator.generate = () => {
-        return responses[n++];
+        return 'c'
     };
 
     TG.init();

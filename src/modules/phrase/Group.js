@@ -2,8 +2,9 @@ import Sequence from './Sequence';
 import NoteGenerator from './NoteGenerator';
 
 class Group extends Sequence {
-    constructor() {
+    constructor(lastNote='c') {
         super();
+        this.lastNote = lastNote;
         this.noteString = '';
         this.NoteGenerator = new NoteGenerator(Math.round, this.density, this.range);
     }

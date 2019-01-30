@@ -2,11 +2,9 @@ import { TripletGroup } from './Group';
 
 test('Group does not include 3 notes that match last known note', () => {
     const Note = {};
-    Note.generate = () => 'c';
+    Note.generate = () => 'z';
     const TG = new TripletGroup(Note);
     TG.init();
-
-    console.log(TG.lastNote);
 
     expect(TG.getRawString()).toBe('ccz')
 });

@@ -1,5 +1,5 @@
 export default class Sequence {
-    constructor (lastNote='z', density=0.7, range=['c']) {
+    constructor (lastNote='c', density=0.7, range=['c']) {
         this.lastNote = lastNote;
         this.noteString = '';
         this.density = density; 

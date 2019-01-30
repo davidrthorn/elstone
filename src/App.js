@@ -2,22 +2,18 @@ import React, { Component } from 'react';
 import './App.css';
 
 import abc from 'abcjs';
+import PhraseContainer from './modules/phrase/PhraseContainer';
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      noteString: `%%flatbeams 1
-        M:4/4
-        K:clef=perc
-        V:all stems=up
-        |: (3Dcz cD (3Dcc z2 :|`
-    }
-  }
-  
+
   componentDidMount() {
-    this.renderBars()
+    const pc = new PhraseContainer();
+    const phrase = pc.create();
+    phrase.init(2);
+    console.log('Phrase: ' + phrase.getString());
+    this.renderBars(this.compileNoteString(phrase.getString()));
   }
+
   render() {
     return (
       <div className="App">
@@ -26,18 +22,14 @@ class App extends Component {
     )
   }
 
-  compileNoteString = () => {
-    this.setState({
-      noteString: `%%flatbeams 1
+  compileNoteString = (noteString) => `%%flatbeams 1
         M:4/4
         K:clef=perc
         V:all stems=up
-        |: (3Dcz cA (3Dcc z2 :|`
-    })
-  }
+        ${noteString}`
 
-  renderBars = () => {
-    abc.renderAbc("paper", this.state.noteString, {scale: 2})
+  renderBars = noteString => {
+    abc.renderAbc("paper", noteString, {scale: 2})
   }
 }
 

@@ -1,12 +1,9 @@
 import Sequence from './Sequence';
-import NoteGenerator from './NoteGenerator';
 
 class Group extends Sequence {
-    constructor(lastNote='c') {
+    constructor(Note) {
         super();
-        this.lastNote = lastNote;
-        this.noteString = '';
-        this.NoteGenerator = new NoteGenerator(Math.round, this.density, this.range);
+        this.Note = Note;
     }
 }
 
@@ -16,14 +13,14 @@ export class TripletGroup extends Group {
         let consecutive = 1;
 
         for (let i = 0; i < 3; i++) {
-            let note = this.NoteGenerator.generate();
+            let note = this.Note.generate();
             if (note === this.lastNote) {
                 consecutive++;
             }
             if (consecutive > 3) {
                 let attempts = 5;
                 while (note === this.lastNote && attempts--) {
-                    note = this.NoteGenerator.generate();
+                    note = this.Note.generate();
                     if (!attempts) {
                         note = 'z';
                     }

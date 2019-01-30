@@ -10,6 +10,7 @@ class Group extends Sequence {
 export class TripletGroup extends Group {
 
     init = () => {
+        this.clear();
         let consecutive = 1;
 
         for (let i = 0; i < 3; i++) {
@@ -31,16 +32,6 @@ export class TripletGroup extends Group {
             this.lastNote = note;
         }
     return this
-    }
-
-    fixRests = notes => {
-        const mp = {
-            'zzc': 'zc',
-            'czz': 'c2',
-            'czc': 'cc',
-            'zzz': 'z2',
-        }
-        return notes in mp ? mp[notes] : notes
     }
 
     getRawString = () => {

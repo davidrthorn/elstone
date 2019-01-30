@@ -11,6 +11,7 @@ class App extends Component {
     const phrase = pc.create();
     phrase.init(2);
     console.log('Phrase: ' + phrase.getString());
+
     this.renderBars(this.compileNoteString(phrase.getString()));
   }
 

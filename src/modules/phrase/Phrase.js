@@ -4,10 +4,10 @@ export default class Phrase extends Sequence {
     constructor (Bar) {
         super();
         this.Bar = Bar;
-        this.noteString = '|:';
     }
 
     init = bars => {
+        this.noteString += '|:'
         for (let i = 0; i < bars; i++) {
             let ending = i === bars - 1 ? ':|' : '|';
             this.Bar.init();

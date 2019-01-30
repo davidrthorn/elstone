@@ -7,4 +7,9 @@ export default class Sequence {
     }
 
     getString = () => this.noteString;
+    
+    clear = () => {
+        this.noteString = '';
+        return this
+    }
 }

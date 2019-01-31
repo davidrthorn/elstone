@@ -30,7 +30,19 @@ class App extends Component {
         ${noteString}`
 
   renderBars = noteString => {
-    abc.renderAbc("paper", noteString, {scale: 2, add_classes: true}, {}, {oneSvgPerLine: true})
+    abc.renderAbc(
+      "paper",
+      noteString,
+      {
+        scale: 2,
+        add_classes: true,
+        staffwidth: 600,
+      },
+      {},
+      {
+        oneSvgPerLine: true,
+      }
+    )
   }
 }
 

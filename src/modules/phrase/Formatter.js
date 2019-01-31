@@ -1,21 +1,43 @@
 export default class Formatter {
     formatNoteValues = noteString => {
-        const valueMap = {
-            'zz[a-y]': 'z$1',
-            '[a-y]zz': '$12',
-            '[a-y]z[a-y]': '$1$1',
+        let output = noteString;
+        const replacements = {
+            'zz([a-y])': 'z$1',
+            '([a-y])zz': '$12',
+            '([a-y])z([a-y])': '$1$2',
             'zzz': 'z2',
-        }
-        return noteString
-            .split(' ')
-            .map(notes => notes in valueMap ? valueMap[notes] : notes)
-            .join(' ')
+        };
+
+        for (let target in replacements) {
+            output = output.replace(
+                new RegExp(target, 'gi'),
+                replacements[target]
+            );
+        };
+
+        return output;
     }
 
     addTripletBrackets = noteString => {
-        const triplets = [
-            'czc',
-            'ccc',
-        ]
+        let output = noteString;
+        const replacements = [
+            'z[a-y]z',
+            'z[a-y][a-y]',
+            '[a-y][a-y][a-y]',
+            '[a-y][a-y]z',
+        ];
+
+        replacements.forEach(r => {
+            output = output.replace(new RegExp(r, 'gi'), '(3$&');
+        });
+
+        return output;
+    }
+
+    format = (noteString) => {
+        let output = noteString;
+        output = this.addTripletBrackets(output);
+        output = this.formatNoteValues(output);
+        return output;
     }
 }

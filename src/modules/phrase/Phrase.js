@@ -1,9 +1,10 @@
 import Sequence from './Sequence';
 
 export default class Phrase extends Sequence {
-    constructor (Bar) {
+    constructor (Bar, Formatter) {
         super();
         this.Bar = Bar;
+        this.Formatter = Formatter;
     }
 
     init = bars => {
@@ -14,4 +15,6 @@ export default class Phrase extends Sequence {
             this.noteString += ' ' + this.Bar.getString() + ' ' + ending;
         }
     }
+
+    getFormattedString = () => this.Formatter.format(this.noteString);
 }

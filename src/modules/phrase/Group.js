@@ -33,13 +33,4 @@ export class TripletGroup extends Group {
         }
     return this
     }
-
-    getRawString = () => {
-        return this.noteString
-    }
-    
-    getString = () => {
-        return this.fixRests(this.noteString)
-    }
-
 }

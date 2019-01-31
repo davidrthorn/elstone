@@ -2,6 +2,7 @@ import Note from './Note';
 import { TripletGroup } from './Group';
 import Bar from './Bar';
 import Phrase from './Phrase';
+import Formatter from './Formatter';
 
 export default class PhraseContainer {
     create = () => {
@@ -13,7 +14,8 @@ export default class PhraseContainer {
                         randomizer
                     )
                 )
-            )
+            ),
+            new Formatter()
         )
     }
 }

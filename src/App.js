@@ -9,10 +9,10 @@ class App extends Component {
   componentDidMount() {
     const pc = new PhraseContainer();
     const phrase = pc.create();
-    phrase.init(2);
-    console.log('Phrase: ' + phrase.getString());
+    phrase.init(1);
+    console.log('Phrase: ' + phrase.getFormattedString());
 
-    this.renderBars(this.compileNoteString(phrase.getString()));
+    this.renderBars(this.compileNoteString(phrase.getFormattedString()));
   }
 
   render() {
@@ -24,13 +24,13 @@ class App extends Component {
   }
 
   compileNoteString = (noteString) => `%%flatbeams 1
-        M:4/4
-        K:clef=perc
+        M: 4/4
+        K: clef=perc
         V:all stems=up
         ${noteString}`
 
   renderBars = noteString => {
-    abc.renderAbc("paper", noteString, {scale: 2})
+    abc.renderAbc("paper", noteString, {scale: 2, add_classes: true}, {}, {oneSvgPerLine: true})
   }
 }
 

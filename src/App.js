@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import './App.css';
 
 import abc from 'abcjs';
-import PhraseContainer from './modules/phrase/PhraseContainer';
+import PhraseBuilder from './modules/phrase/PhraseBuilder';
 
 class App extends Component {
 
   componentDidMount() {
-    const pc = new PhraseContainer();
-    const phrase = pc.create();
+    const pb = new PhraseBuilder();
+    const phrase = pb.create({
+      lastNote: 'z',
+      density: 0.7,
+      range: ['c', 'D'],
+    });
     phrase.init(1);
-    console.log('Phrase: ' + phrase.getFormattedString());
 
     this.renderBars(this.compileNoteString(phrase.getFormattedString()));
   }

@@ -1,29 +1,31 @@
 export default class PhraseMerger {
 
     merge = phrases => {
-        let newPhrase = '';
-        const [matrix, longest] = this.arrayToMatrix(phrases);
+        let result = '';
+        const phraseCopy = phrases.slice();
+        const columns = this.columnStrings(phraseCopy);
 
-        for (let i = 0; i < longest; i++) {
-            for (let i = 0; i < matrix.length; i++) {
-
-            }
+        while (columns.length) {
+            result += this.combineNotes(
+                columns.shift()
+            );
         }
-
+        return result
     }
 
-
     combineNotes = column =>
-        column.search(/[a-g]/gi) === -1
-            ? 'z'
+        column.search(/^(x|z|[ ])\1*$/gi) !== -1
+            ? column[0]
             : column
-                .replace(/(x|z)/gi, '')
-                .replace(/\w{2,}/gi, '[$&]');
-
+                .replace(/(x|z|[ ])/gi, '')
+                .split('')
+                .sort()
+                .join('')
+                .replace(/[a-g]{2,}/gi, '[$&]')
 
     columnStrings = arr => {
-        let result = [];
-        let desc = arr.slice(0).sort((a, b) => b.length - a.length);
+        const result = [];
+        const desc = arr.sort((a, b) => b.length - a.length);
         let i = desc.length;
         while (i--) {
             for (let j = 0; j < desc[i].length; j++) {

@@ -10,8 +10,8 @@ class App extends Component {
     const pb = new PhraseBuilder();
     const phrase = pb.create({
       lastNote: 'z',
-      density: 0.7,
-      range: ['c', 'D'],
+      density: 1,
+      range: ['A', 'c', 'e', 'D'],
     });
     phrase.init(1);
 

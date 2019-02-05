@@ -13,7 +13,7 @@ export class TripletGroup extends Group {
         this.clear();
         let consecutive = 1;
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < this.consecutive; i++) {
             let note = this.Note.generate();
             if (note === this.lastNote) {
                 consecutive++;

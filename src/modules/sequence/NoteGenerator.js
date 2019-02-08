@@ -12,4 +12,15 @@ export default class NoteGenerator {
         const randomIndex = Math.floor(this.randomizer() * this.range.length)
         return this.range[randomIndex]
     }
+
+    noteOtherThan = lastNote => {
+        let note = this.generate()
+        let attempts = 0
+        while (note === lastNote) {
+            note = ++attempts < 10
+                ? this.generate()
+                : 'z'
+        }
+        return note
+    }
 }

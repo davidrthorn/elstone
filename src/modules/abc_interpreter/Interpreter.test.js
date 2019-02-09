@@ -8,8 +8,8 @@ test('splitByGroup splits a sequence into the appropriate groups', () => {
 })
 
 test('splitByGroup leaves a shorter final group when sequence length is not divisible by group length', () => {
-    expect(i.splitToGroups('aabccdeefggh', 3)).toBe('aab ccd eef ggh')
-    expect(i.splitToGroups('aabccdeefggh', 4)).toBe('aabc cdee fggh')
+    expect(i.splitToGroups('aabccdeefgg', 3)).toBe('aab ccd eef gg')
+    expect(i.splitToGroups('aabccdeefgg', 4)).toBe('aabc cdee fgg')
 })
 
 test('splitByGroup leaves sequence alone when group length is 0', () => {

@@ -31,3 +31,18 @@ test('_splitToColumns works as expected', () => {
     expect(i._splitToColumns('[AB]cd[EF]')).toEqual(['[AB]', 'c', 'd', '[EF]'])
     expect(i._splitToColumns('[AB][EF]')).toEqual(['[AB]', '[EF]'])
 })
+
+test('_addNoteValuesToGroup adds eight notes to appropriate triplet phrases when swung', () => {
+    expect(i._addNoteValuesToGroup('AzB')).toBe('AB')
+})
+
+test('_addNoteValuesToGroup handles brackets', () => {
+    expect(i._addNoteValuesToGroup('[Abc]zB')).toBe('[Abc]B')
+    expect(i._addNoteValuesToGroup('zzz')).toBe('z2')
+    expect(i._addNoteValuesToGroup('[cd]zz')).toBe('[cd]2')
+})
+
+test('_addNoteValuesToGroup leaves inappropriate groups alone', () => {
+    expect(i._addNoteValuesToGroup('ccz')).toBe('ccz')
+    expect(i._addNoteValuesToGroup('[cc]dz')).toBe('[cc]dz')
+})

@@ -46,3 +46,21 @@ test('_addNoteValuesToGroup leaves inappropriate groups alone', () => {
     expect(i._addNoteValuesToGroup('ccz')).toBe('ccz')
     expect(i._addNoteValuesToGroup('[cc]dz')).toBe('[cc]dz')
 })
+
+test('_addTripletBrackets adds brackets where appropriate', () => {
+    expect(i._addTripletBrackets('ccz')).toBe('(3ccz')
+    expect(i._addTripletBrackets('zAc')).toBe('(3zAc')
+    expect(i._addTripletBrackets('zbz')).toBe('(3zbz')
+})
+
+test('_addTripletBrackets handles simultaneous notes', () => {
+    expect(i._addTripletBrackets('c[cA]z')).toBe('(3c[cA]z')
+    expect(i._addTripletBrackets('z[Ab][Da]')).toBe('(3z[Ab][Da]')
+    expect(i._addTripletBrackets('z[abc]z')).toBe('(3z[abc]z')
+})
+
+test('_addTripletBrackets leaves groups alone that shouldnt be touched', () => {
+    expect(i._addTripletBrackets('czc')).toBe('czc')
+    expect(i._addTripletBrackets('cc')).toBe('cc')
+    expect(i._addTripletBrackets('cczA')).toBe('cczA')
+})

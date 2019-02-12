@@ -2,37 +2,46 @@ import AbcInterpreter from './Interpreter'
 
 const i = new AbcInterpreter()
 
-test('splitByGroup splits a sequence into the appropriate groups', () => {
-    expect(i._splitToGroups('aabccdeefggc', 3)).toBe('aab ccd eef ggc')
-    expect(i._splitToGroups('aabccdeefggc', 4)).toBe('aabc cdee fggc')
+test('_sequenceToGroups splits a sequence into the appropriate groups', () => {
+    expect(i._sequenceToGroups('aabccdeefggc', 3)).toBe('aab ccd eef ggc')
+    expect(i._sequenceToGroups('aabccdeefggc', 4)).toBe('aabc cdee fggc')
 })
 
-test('splitByGroup leaves a shorter final group when sequence length is not divisible by group length', () => {
-    expect(i._splitToGroups('aabccdeefgg', 3)).toBe('aab ccd eef gg')
-    expect(i._splitToGroups('aabccdeefgg', 4)).toBe('aabc cdee fgg')
+test('_sequenceToGroups leaves a shorter final group when sequence length is not divisible by group length', () => {
+    expect(i._sequenceToGroups('aabccdeefgg', 3)).toBe('aab ccd eef gg')
+    expect(i._sequenceToGroups('aabccdeefgg', 4)).toBe('aabc cdee fgg')
 })
 
-test('splitByGroup leaves sequence alone when group length is 0', () => {
-    expect(i._splitToGroups('aabccdeefggg', 0)).toBe('aabccdeefggg')
+test('_sequenceToGroups leaves sequence alone when group length is 0', () => {
+    expect(i._sequenceToGroups('aabccdeefggg', 0)).toBe('aabccdeefggg')
 })
 
-test('splitByGroup returns empty string for empty sequence', () => {
-    expect(i._splitToGroups('', 4)).toBe('')
+test('_sequenceToGroups returns empty string for empty sequence', () => {
+    expect(i._sequenceToGroups('', 4)).toBe('')
 })
 
-test('splitByGroup handles bracketed notes', () => {
-    expect(i._splitToGroups('A[bc]d[EFg]', 2)).toBe('A[bc] d[EFg]')
-    expect(i._splitToGroups('A[bc]', 2)).toBe('A[bc]')
-    expect(i._splitToGroups('[abc][def][ade][age]', 2)).toBe('[abc][def] [ade][age]')
-    expect(i._splitToGroups('[abc][def][cab]', 2)).toBe('[abc][def] [cab]')
+test('_sequenceToGroups handles bracketed notes', () => {
+    expect(i._sequenceToGroups('A[bc]d[EFg]', 2)).toBe('A[bc] d[EFg]')
+    expect(i._sequenceToGroups('A[bc]', 2)).toBe('A[bc]')
+    expect(i._sequenceToGroups('[abc][def][ade][age]', 2)).toBe('[abc][def] [ade][age]')
+    expect(i._sequenceToGroups('[abc][def][cab]', 2)).toBe('[abc][def] [cab]')
 })
 
-test('_splitToColumns works as expected', () => {
-    expect(i._splitToColumns('[AB]cd[EF]')).toEqual(['[AB]', 'c', 'd', '[EF]'])
-    expect(i._splitToColumns('[AB][EF]')).toEqual(['[AB]', '[EF]'])
+test('_groupToColumns handles no brackets', () => {
+    expect(i._groupToColumns('ccc')).toEqual(['c', 'c', 'c'])
+    expect(i._groupToColumns('AbD')).toEqual(['A', 'b', 'D'])
 })
 
-test('_addNoteValuesToGroup adds eight notes to appropriate triplet phrases when swung', () => {
+test('_groupToColumns handles brackets', () => {
+    expect(i._groupToColumns('[AB]cd[EF]')).toEqual(['[AB]', 'c', 'd', '[EF]'])
+    expect(i._groupToColumns('[AB][EF]')).toEqual(['[AB]', '[EF]'])
+})
+
+test('_groupToColumns returns empty array for empty string', () => {
+    expect(i._groupToColumns('')).toEqual([])
+})
+
+test('_addNoteValuesToGroup adds eighth notes to appropriate triplet phrases when swung', () => {
     expect(i._addNoteValuesToGroup('AzB')).toBe('AB')
 })
 
@@ -47,20 +56,22 @@ test('_addNoteValuesToGroup leaves inappropriate groups alone', () => {
     expect(i._addNoteValuesToGroup('[cc]dz')).toBe('[cc]dz')
 })
 
-test('_addTripletBrackets adds brackets where appropriate', () => {
-    expect(i._addTripletBrackets('ccz')).toBe('(3ccz')
-    expect(i._addTripletBrackets('zAc')).toBe('(3zAc')
-    expect(i._addTripletBrackets('zbz')).toBe('(3zbz')
+test('_addTripletBracketsToGroup adds brackets where appropriate', () => {
+    expect(i._addTripletBracketsToGroup('ccz')).toBe('(3ccz')
+    expect(i._addTripletBracketsToGroup('zAc')).toBe('(3zAc')
+    expect(i._addTripletBracketsToGroup('zbz')).toBe('(3zbz')
+    expect(i._addTripletBracketsToGroup('ccc')).toBe('(3ccc')
 })
 
-test('_addTripletBrackets handles simultaneous notes', () => {
-    expect(i._addTripletBrackets('c[cA]z')).toBe('(3c[cA]z')
-    expect(i._addTripletBrackets('z[Ab][Da]')).toBe('(3z[Ab][Da]')
-    expect(i._addTripletBrackets('z[abc]z')).toBe('(3z[abc]z')
+test('_addTripletBracketsToGroup handles simultaneous notes', () => {
+    expect(i._addTripletBracketsToGroup('c[cA]z')).toBe('(3c[cA]z')
+    expect(i._addTripletBracketsToGroup('z[Ab][Da]')).toBe('(3z[Ab][Da]')
+    expect(i._addTripletBracketsToGroup('z[abc]z')).toBe('(3z[abc]z')
+    expect(i._addTripletBracketsToGroup('[abc][abc][abc]')).toBe('(3[abc][abc][abc]')
 })
 
-test('_addTripletBrackets leaves groups alone that shouldnt be touched', () => {
-    expect(i._addTripletBrackets('czc')).toBe('czc')
-    expect(i._addTripletBrackets('cc')).toBe('cc')
-    expect(i._addTripletBrackets('cczA')).toBe('cczA')
+test('_addTripletBracketsToGroup leaves groups alone that shouldnt be touched', () => {
+    expect(i._addTripletBracketsToGroup('czc')).toBe('czc')
+    expect(i._addTripletBracketsToGroup('cc')).toBe('cc')
+    expect(i._addTripletBracketsToGroup('cczA')).toBe('cczA')
 })

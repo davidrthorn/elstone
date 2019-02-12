@@ -3,9 +3,13 @@ export default class AbcInterpreter {
         this.swung = swung
     }
 
-    _splitToGroups = (sequence, groupLength) => {
+    interpretSequence = (sequence, config) => {
+
+    } 
+
+    _sequenceToGroups = (sequence, groupLength) => {
         let result = ''
-        const cols = this._splitToColumns(sequence)
+        const cols = this._groupToColumns(sequence)
 
         for (let i = 0; i < cols.length; i++) {
             if (i && i % groupLength === 0) {
@@ -16,10 +20,10 @@ export default class AbcInterpreter {
         return result
     }
 
-    _splitToColumns = sequence => sequence.match(/(\[[a-g]+\]|[a-gxz])/gi) || []
+    _groupToColumns = sequence => sequence.match(/(\[[a-g]+\]|[a-gxz])/gi) || []
 
     _addNoteValuesToGroup = group => {
-        const notes = this._splitToColumns(group)
+        const notes = this._groupToColumns(group)
         if (notes[1] === 'z') {
             if (notes[2] === 'z') {
                 return notes[0] + '2'
@@ -34,5 +38,24 @@ export default class AbcInterpreter {
         let withRests = groups.map(group => this._addNoteValuesToGroup(group))
 
         return withRests.join(' ')
+    }
+
+    _addTripletBracketsToGroup = group => {
+        const notes = this._groupToColumns(group)
+        if (!notes || notes.length !== 3) {
+            return group
+        }
+        
+        const patterns = ['nnz', 'znn', 'znz', 'nnn']
+        let groupPattern = ''
+        notes.forEach(n => {
+            groupPattern += n === 'z'
+                ? 'z'
+                : 'n'
+        })
+
+        return patterns.includes(groupPattern)
+            ? '(3' + group
+            : group
     }
 }

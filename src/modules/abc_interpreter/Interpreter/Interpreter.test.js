@@ -75,3 +75,8 @@ test('_addTripletBracketsToGroup leaves groups alone that shouldnt be touched', 
     expect(i._addTripletBracketsToGroup('cc')).toBe('cc')
     expect(i._addTripletBracketsToGroup('cczA')).toBe('cczA')
 })
+
+test('_applyFunctionToGroups successfully applies simple function', () => {
+    const f = a => a + a
+    expect(i._applyFunctionToGroups('a b c', f)).toBe('aa bb cc')
+})

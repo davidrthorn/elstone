@@ -2,20 +2,34 @@ import React, { Component } from 'react';
 import './App.css';
 
 import abc from 'abcjs';
-import PhraseBuilder from './modules/phrase/PhraseBuilder';
+import NoteGenerator from './modules/sequence/NoteGenerator/NoteGenerator'
+import SequenceGenerator from './modules/sequence/SequenceGenerator/SequenceGenerator'
+import SequenceCombiner from './modules/sequence/SequenceCombiner/SequenceCombiner'
+import AbcInterpreter from './modules/abc_interpreter/Interpreter/Interpreter'
 
 class App extends Component {
 
   componentDidMount() {
-    const pb = new PhraseBuilder();
-    const phrase = pb.create({
-      lastNote: 'z',
-      density: 1,
-      range: ['A', 'c', 'e', 'D'],
-    });
-    phrase.init(1);
+    let noteGenerator = new NoteGenerator({
+      range: ['c'],
+      density: 0.5,
+    })
 
-    this.renderBars(this.compileNoteString(phrase.getFormattedString()));
+    let config = {
+      length: 12,
+      maxConsecutive: 2,
+      noteGenerator: noteGenerator,
+    }
+
+    let sg = new SequenceGenerator(config)
+    const s1 = sg.generate()
+
+    const s2 = 'DzzzDzzzzDzz'
+
+    const combiner = new SequenceCombiner()
+    const sequence = combiner.combine([s1, s2])
+    const interpreter = new AbcInterpreter()
+    this.renderBars(this.compileNoteString(interpreter.interpretSequence(sequence, 3)))
   }
 
   render() {

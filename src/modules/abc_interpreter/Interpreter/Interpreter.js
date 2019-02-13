@@ -1,10 +1,13 @@
-export default class AbcInterpreter {
+export default class Interpreter {
     constructor (swung=false) {
         this.swung = swung
     }
 
-    interpretSequence = (sequence, config) => {
-
+    interpretSequence = (sequence, groupLength) => {
+        sequence = this._sequenceToGroups(sequence, groupLength)
+        sequence = this._applyFunctionToGroups(sequence, this._addNoteValuesToGroup)
+        sequence = this._applyFunctionToGroups(sequence, this._addTripletBracketsToGroup)
+        return sequence
     } 
 
     _sequenceToGroups = (sequence, groupLength) => {
@@ -33,11 +36,11 @@ export default class AbcInterpreter {
         return group
     }
 
-    _addNoteValuesToSequence = sequence => {
-        const groups = sequence.split(' ')
-        let withRests = groups.map(group => this._addNoteValuesToGroup(group))
-
-        return withRests.join(' ')
+    _applyFunctionToGroups = (sequence, f) => {
+        return sequence
+            .split(' ')
+            .map(group => f(group))
+            .join(' ')
     }
 
     _addTripletBracketsToGroup = group => {

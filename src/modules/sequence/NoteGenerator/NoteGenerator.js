@@ -14,13 +14,13 @@ export default class NoteGenerator {
     }
 
     noteOtherThan = lastNote => {
-        let note = this.generate()
-        let attempts = 0
-        while (note === lastNote) {
-            note = ++attempts < 10
-                ? this.generate()
-                : 'z'
+        let attempts = 10
+        while (attempts--) {
+            let note = this.generate()
+            if (note === lastNote) {
+                return note
+            }
         }
-        return note
+        return 'z'
     }
 }
